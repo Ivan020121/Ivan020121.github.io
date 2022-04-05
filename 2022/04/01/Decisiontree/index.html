@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 6.1.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="Ivan">
+  
+
+  
+
+  
+
+  <title>Decision tree | Ivan</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://images.unsplash.com/photo-1572252821143-035a024857ac?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTJ8fGNhdHxlbnwwfHwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          Ivan
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/message">留言</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">Decision tree</h1>
+          <h2 class="title-sub-wrap">
+            <strong>Ivan</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-04-01T07:55:55.000Z" itemprop="datePublished">2022-04-01</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/Machine-Learning/">📒 Machine Learning</a></li>
+  
+    <li><a href="/categories/Machine-Learning/Classification/">📒 Classification</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/Python/">🏷️ Python</a></li>
+  
+    <li><a href="/tags/Machine-Learning/">🏷️ Machine Learning</a></li>
+  
+    <li><a href="/tags/Decision-tree/">🏷️ Decision tree</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><blockquote>
+<p><strong>本章内容</strong><br>决策树简介<br>在数据集中度量一致性<br>使用递归构造决策树<br>使用Matplotlib绘制树形图</p>
+</blockquote>
+<p>决策树(Decision tree)是一种非参数的监督学习方法，它主要用于<code>分类和回归</code>。决策树的目的是构造一种模型，使之能够从样本数据的特征属性中，通过学习简单的决策规则——<code>IF THEN规则</code>，也可以认为是定义在特征空间与类空间上的条件概率分布。本文主要讲解如何在实际环境中应用决策树算法，同时涉及如何使用Python工具和相关机器学习术语，算法原理详见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38923076/article/details/82930949?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164880029216780271988749%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164880029216780271988749&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-82930949.142%5Ev5%5Epc_search_result_cache&utm_term=%E5%86%B3%E7%AD%96%E6%A0%91%E5%8E%9F%E7%90%86&spm=1018.2226.3001.4187">决策树原理详解</a>。<br>决策树算法主要包括三个部分：<code>特征选择</code>、<code>树的生成</code>、<code>树的剪枝</code>。常用算法有 ID3、C4.5、CART。<br><img src="https://img-blog.csdnimg.cn/20200314005052850.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MzA5NjUy,size_16,color_FFFFFF,t_70"></p>
+<h2 id="Github代码获取"><a href="#Github代码获取" class="headerlink" title="Github代码获取"></a>Github代码获取</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/Ivan020121/Machine-Learning/tree/main/Decision%20tree">https://github.com/Ivan020121/Machine-Learning/tree/main/Decision%20tree</a></p>
+</blockquote>
+<h2 id="决策树的构造"><a href="#决策树的构造" class="headerlink" title="决策树的构造"></a>决策树的构造</h2><p>决策树学习的算法通常是一个<code>递归</code>地选择<code>最优特征</code>，并根据该特征对训练数据进行分割，使得各个子数据集有一个最好的分类的过程。这一过程对应着对特征空间的<code>划分</code>，也对应着决策树的构建。</p>
+<blockquote>
+<p><strong>决策树</strong><br>优点：计算复杂度不高，输出结果易于理解，对中间值的缺失不敏感，可以处理不相关特征数据。<br>缺点：可能会产生过度匹配的问题。<br>适用数据类型：数值型和标称型。</p>
+</blockquote>
+<p><img src="data:image/jpeg;base64,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"></p>
+<p>首先：确定当前数据集上的<code>决定性特征</code>，为了得到该决定性特征，必须评估每个特征，完成测试之后，原始数据集就被划分为几个数据子集，这些数据子集会分布在第一个决策点的所有分支上，如果某个分支下的数据属于<code>同一类型</code>，则无需进一步对数据集进行分割，如果不属于同一类，则要重复划分数据子集，直到所有相同类型的数据均在一个数据子集内。</p>
+<blockquote>
+<p><strong>决策树的一般流程</strong><br>(1) 收集数据：可以使用任何方法。比如想构建一个相亲系统，我们可以从媒婆那里，或者通过参访相亲对象获取数据。根据他们考虑的因素和最终的选择结果，就可以得到一些供我们利用的数据了。<br>(2)准备数据：收集完的数据，我们要进行整理，将这些所有收集的信息按照一定规则整理出来，并排版，方便我们进行后续处理。<br>(3) 分析数据：可以使用任何方法，决策树构造完成之后，我们可以检查决策树图形是否符合预期。<br>(4) 训练算法：这个过程也就是构造决策树，同样也可以说是决策树学习，就是构造一个决策树的数据结构。<br>(5) 测试算法：使用经验树计算错误率。当错误率达到了可接收范围，这个决策树就可以投放使用了。<br>(6)使用算法：此步骤可以使用适用于任何监督学习算法，而使用决策树可以更好地理解数据的内在含义。</p>
+</blockquote>
+<p>创建分支的伪代码createBranch()如下图所示：</p>
+<pre class="line-numbers language-none"><code class="language-none">检测数据集中每个子项是否属于同一类：
+    If so return 类标签：
+    Else
+        寻找划分数据集的最好特征
+        划分数据集
+        创建分支节点
+            for 每个划分的子集
+                调用函数createBranch()并增加返回结果到分支节点中
+            return 分支节点<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h3><p>划分数据集的大原则是：<code>将无序数据变得更加有序</code>，但是各种方法都有各自的优缺点，<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BF%A1%E6%81%AF%E8%AE%BA/302185">信息论</a>是量化处理信息的分支科学，在划分数据集前后信息发生的变化称为<code>信息增益</code>，获得信息增益最高的特征就是最好的选择，，集合信息的度量方式称为香农熵，或者简称熵。<br><img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.MvZCO3UOx0FQ8m4j6xlWHAHaDB?w=327&h=142&c=7&r=0&o=5&dpr=1.25&pid=1.7"><br><strong>计算给定数据集的香农熵</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from math import log
+
+def calcShannonEnt(dataSet):
+    numEntries &#x3D; len(dataSet)
+    labelCounts &#x3D; &#123;&#125;
+    # the number of unique elements and their occurance
+    for featVec in dataSet:
+        currentLabel &#x3D; featVec[-1]
+        if currentLabel not in labelCounts.keys(): labelCounts[currentLabel] &#x3D; 0
+        labelCounts[currentLabel] +&#x3D; 1
+    shannonEnt &#x3D; 0.0
+    for key in labelCounts:
+        prob &#x3D; float(labelCounts[key])&#x2F;numEntries
+        # log base 2
+        shannonEnt -&#x3D; prob * log(prob,2)
+    return shannonEnt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>得到熵之后，我们就可以按照获取<code>最大信息增益</code>的方式划分数据集。另一个度量集合无序性的方法是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%9F%BA%E5%B0%BC%E4%B8%8D%E7%BA%AF%E5%BA%A6/22046808">基尼不纯度(Gini impurity)</a>,简单地说就是从一个数据集中<code>随机</code>选取子项，度量其被错误分类到其他组里的概率。</p>
+<h3 id="划分数据集"><a href="#划分数据集" class="headerlink" title="划分数据集"></a>划分数据集</h3><p>分类算法除了需要测量信息熵，还需要划分数据集，度量划分数据集的熵，以便判断按照哪个特征划分数据集是最好的划分方式。<br><strong>按照给定特征划分数据集</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def splitDataSet(dataSet, axis, value):
+    retDataSet &#x3D; []
+    for featVec in dataSet:
+        if featVec[axis] &#x3D;&#x3D; value:
+            # chop out axis used for splitting
+            reducedFeatVec &#x3D; featVec[:axis]
+            reducedFeatVec.extend(featVec[axis+1:])
+            retDataSet.append(reducedFeatVec)
+    return retDataSet<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>函数<code>splitDataSet()</code>需要三个输入参数：待划分的数据集、划分数据集的特征、需要返回的特征的值。<br>接下来我们需要遍历整个数据集，循环计算<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%A6%99%E5%86%9C%E7%86%B5/1649961">香农熵</a>和splitDataSet(),找到最好的划分方式。<br><strong>选择最好的数据集划分方式</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def chooseBestFeatureToSplit(dataSet):
+    # the last column is used for the labels
+    numFeatures &#x3D; len(dataSet[0]) - 1
+    baseEntropy &#x3D; calcShannonEnt(dataSet)
+    bestInfoGain &#x3D; 0.0; bestFeature &#x3D; -1
+    # iterate over all the features
+    for i in range(numFeatures):
+        # create a list of all the examples of this feature
+        featList &#x3D; [example[i] for example in dataSet]
+        # get a set of unique values
+        uniqueVals &#x3D; set(featList)
+        newEntropy &#x3D; 0.0
+        for value in uniqueVals:
+            subDataSet &#x3D; splitDataSet(dataSet, i, value)
+            prob &#x3D; len(subDataSet)&#x2F;float(len(dataSet))
+            newEntropy +&#x3D; prob * calcShannonEnt(subDataSet)
+            # calculate the info gain; ie reduction in entropy
+        infoGain &#x3D; baseEntropy - newEntropy
+        # compare this to the best gain so far
+        if (infoGain &gt; bestInfoGain):
+            # if better than current best, set to best
+            bestInfoGain &#x3D; infoGain
+            bestFeature &#x3D; i
+            # returns an integer
+    return bestFeature<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>函数chooseBestFeatureToSplit()实现选取特征，划分数据集，计算得出最好的划分数据集的特征。</p>
+<h3 id="递归构建决策树"><a href="#递归构建决策树" class="headerlink" title="递归构建决策树"></a>递归构建决策树</h3><p>从数据集构造决策树算法所需的子功能模块工作原理如下：得到原始数据集，然后基于<code>最好的属性值</code>划分数据集，由于特征值可能多于两个，因此可能存在大于两个分支的数据集划分，第一次划分之后，数据将被向下传递到树分支的下一个节点，在此节点在此划分数据，因此可以使用<code>递归</code>的原则处理数据集。<br>递归结束的条件是：程序完全遍历所有划分数据集的属性，或者每个分支下的所有实例都具有相同的分类，如果所有实例具有相同的分类，则得到一个叶子节点或者终止块，任何到达叶子节点的数据必然属于叶子节点的分类。<br><strong>创建树的函数代码</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def createTree(dataSet,labels):
+    classList &#x3D; [example[-1] for example in dataSet]
+    if classList.count(classList[0]) &#x3D;&#x3D; len(classList):
+        # stop splitting when all of the classes are equal
+        return classList[0]
+    # stop splitting when there are no more features in dataSet
+    if len(dataSet[0]) &#x3D;&#x3D; 1:
+        return majorityCnt(classList)
+    bestFeat &#x3D; chooseBestFeatureToSplit(dataSet)
+    bestFeatLabel &#x3D; labels[bestFeat]
+    myTree &#x3D; &#123;bestFeatLabel:&#123;&#125;&#125;
+    del(labels[bestFeat])
+    featValues &#x3D; [example[bestFeat] for example in dataSet]
+    uniqueVals &#x3D; set(featValues)
+    for value in uniqueVals:
+        # copy all of labels, so trees don&#39;t mess up existing labels
+        subLabels &#x3D; labels[:]
+        myTree[bestFeatLabel][value] &#x3D; createTree(splitDataSet(dataSet, bestFeat, value),subLabels)
+    return myTree<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>函数createTree()使用两个输入参数：<code>数据集合</code>和<code>标签列表</code>。标签列表包含了数据集中所有特征的标签，算法本身并不需要这个变量，但是为了给出数据明确的含义，我们将它作为一个输入参数提供。</p>
+<h2 id="在Python中使用Matplotlib注解绘制树形图"><a href="#在Python中使用Matplotlib注解绘制树形图" class="headerlink" title="在Python中使用Matplotlib注解绘制树形图"></a>在Python中使用Matplotlib注解绘制树形图</h2><p>通过字典表示决策树非常不易于理解，而且直接绘制图形也比较困难。因此我们使用<code>Matplotlib</code>库创建树形图，决策树的主要优点就是直观易于理解，如果不能将其直观的显示出来，就无法发挥其优势。<br><img src="http://dl2.iteye.com/upload/attachment/0120/8286/a56e2b83-d828-3975-a79b-0146cf784eaa.png"><br><em>决策树的范例</em></p>
+<h3 id="Matplotlib注解"><a href="#Matplotlib注解" class="headerlink" title="Matplotlib注解"></a>Matplotlib注解</h3><p>Matplotlib提供了一个非常有用的注解工具<code>annotations</code>，它可以在数据图像上添加<code>文本注解</code>。通过注解功能绘制树形图，它可以对文字着色并提供多种形状以供选择，而且可以反转箭头将它指向文本框而不是数据点。<br><strong>使用文本注解绘制树节点</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">import matplotlib.pyplot as plt
+
+decisionNode &#x3D; dict(boxstyle&#x3D;&quot;sawtooth&quot;, fc&#x3D;&quot;0.8&quot;)
+leafNode &#x3D; dict(boxstyle&#x3D;&quot;round4&quot;, fc&#x3D;&quot;0.8&quot;)
+arrow_args &#x3D; dict(arrowstyle&#x3D;&quot;&lt;-&quot;)
+
+def plotNode(nodeTxt, centerPt, parentPt, nodeType):
+    createPlot.ax1.annotate(nodeTxt, xy&#x3D;parentPt,  xycoords&#x3D;&#39;axes fraction&#39;,
+             xytext&#x3D;centerPt, textcoords&#x3D;&#39;axes fraction&#39;,
+             va&#x3D;&quot;center&quot;, ha&#x3D;&quot;center&quot;, bbox&#x3D;nodeType, arrowprops&#x3D;arrow_args )
+
+def createPlot(inTree):
+    fig &#x3D; plt.figure(1, facecolor&#x3D;&#39;white&#39;)
+    fig.clf()
+    axprops &#x3D; dict(xticks&#x3D;[], yticks&#x3D;[])
+    createPlot.ax1 &#x3D; plt.subplot(111, frameon&#x3D;False, **axprops)    #no ticks
+    #createPlot.ax1 &#x3D; plt.subplot(111, frameon&#x3D;False) #ticks for demo puropses 
+    plotTree.totalW &#x3D; float(getNumLeafs(inTree))
+    plotTree.totalD &#x3D; float(getTreeDepth(inTree))
+    plotTree.xOff &#x3D; -0.5&#x2F;plotTree.totalW; plotTree.yOff &#x3D; 1.0;
+    plotTree(inTree, (0.5,1.0), &#39;&#39;)
+    plt.show()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>代码定义了描述树节点格式的常量，然后定义plotNode()函数执行了实际的绘图功能，该函数需要一个绘图区，该区域由全局变量createPlot.ax1定义。</p>
+<h3 id="构造注解树"><a href="#构造注解树" class="headerlink" title="构造注解树"></a>构造注解树</h3><p>绘制一棵完整的树需要一些技巧，必须知道有<code>多少个叶节点</code>，以便可以正确定义x轴的长度；我们还需要知道书有多少层，以便可以正确确定y轴的高度。<br>这里我们定义两个新函数<code>getNumLeafs()</code>和<code>getTreeDepth()</code>，来获取叶节点的数目和树的层数。<br><strong>获取叶节点的数目和树的层数</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def getNumLeafs(myTree):
+    numLeafs &#x3D; 0
+    firstStr &#x3D; myTree.keys()[0]
+    secondDict &#x3D; myTree[firstStr]
+    for key in secondDict.keys():
+        if type(secondDict[key]).__name__&#x3D;&#x3D;&#39;dict&#39;:#test to see if the nodes are dictonaires, if not they are leaf nodes
+            numLeafs +&#x3D; getNumLeafs(secondDict[key])
+        else:   numLeafs +&#x3D;1
+    return numLeafs
+
+def getTreeDepth(myTree):
+    maxDepth &#x3D; 0
+    firstStr &#x3D; myTree.keys()[0]
+    secondDict &#x3D; myTree[firstStr]
+    for key in secondDict.keys():
+        if type(secondDict[key]).__name__&#x3D;&#x3D;&#39;dict&#39;:#test to see if the nodes are dictonaires, if not they are leaf nodes
+            thisDepth &#x3D; 1 + getTreeDepth(secondDict[key])
+        else:   thisDepth &#x3D; 1
+        if thisDepth &gt; maxDepth: maxDepth &#x3D; thisDepth
+    return maxDepth<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="http://dl2.iteye.com/upload/attachment/0120/7863/0161f436-f084-3204-8051-6404de2b69af.png"><br><em>简单数据集绘制的树形图</em><br><strong>plotTree函数</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def plotMidText(cntrPt, parentPt, txtString):
+    xMid &#x3D; (parentPt[0]-cntrPt[0])&#x2F;2.0 + cntrPt[0]
+    yMid &#x3D; (parentPt[1]-cntrPt[1])&#x2F;2.0 + cntrPt[1]
+    createPlot.ax1.text(xMid, yMid, txtString, va&#x3D;&quot;center&quot;, ha&#x3D;&quot;center&quot;, rotation&#x3D;30)
+
+def plotTree(myTree, parentPt, nodeTxt):#if the first key tells you what feat was split on
+    numLeafs &#x3D; getNumLeafs(myTree)  #this determines the x width of this tree
+    depth &#x3D; getTreeDepth(myTree)
+    firstStr &#x3D; myTree.keys()[0]     #the text label for this node should be this
+    cntrPt &#x3D; (plotTree.xOff + (1.0 + float(numLeafs))&#x2F;2.0&#x2F;plotTree.totalW, plotTree.yOff)
+    plotMidText(cntrPt, parentPt, nodeTxt)
+    plotNode(firstStr, cntrPt, parentPt, decisionNode)
+    secondDict &#x3D; myTree[firstStr]
+    plotTree.yOff &#x3D; plotTree.yOff - 1.0&#x2F;plotTree.totalD
+    for key in secondDict.keys():
+        if type(secondDict[key]).__name__&#x3D;&#x3D;&#39;dict&#39;:#test to see if the nodes are dictonaires, if not they are leaf nodes   
+            plotTree(secondDict[key],cntrPt,str(key))        #recursion
+        else:   #it&#39;s a leaf node print the leaf node
+            plotTree.xOff &#x3D; plotTree.xOff + 1.0&#x2F;plotTree.totalW
+            plotNode(secondDict[key], (plotTree.xOff, plotTree.yOff), cntrPt, leafNode)
+            plotMidText((plotTree.xOff, plotTree.yOff), cntrPt, str(key))
+    plotTree.yOff &#x3D; plotTree.yOff + 1.0&#x2F;plotTree.totalD
+#if you do get a dictonary you know it&#39;s a tree, and the first element will be another dict<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>函数createPlot()是我们使用的主函数，它调用了ployTree()，函数又依次调用了前面的函数plotMidText()。</p>
+<h2 id="测试和存储分类器"><a href="#测试和存储分类器" class="headerlink" title="测试和存储分类器"></a>测试和存储分类器</h2><p>使用决策树构建分类器后，将其用于实际数据的分类。</p>
+<h3 id="测试算法：使用决策树执行分类"><a href="#测试算法：使用决策树执行分类" class="headerlink" title="测试算法：使用决策树执行分类"></a>测试算法：使用决策树执行分类</h3><p>依靠训练数据构造了决策树之后，我们可以将它用于实际数据的分类。在执行数据分类时，需要使用决策树以及用于构造决策树的标签向量。然后，程序比较测试数据与决策树上的数值，递归执行该过程直到进入叶子节点；最后将测试数据定义为叶子节点所属的类型。<br><strong>使用决策树的分类函数</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def classify(inputTree,featLabels,testVec):
+    firstStr &#x3D; inputTree.keys()[0]
+    secondDict &#x3D; inputTree[firstStr]
+    featIndex &#x3D; featLabels.index(firstStr)
+    key &#x3D; testVec[featIndex]
+    valueOfFeat &#x3D; secondDict[key]
+    if isinstance(valueOfFeat, dict): 
+        classLabel &#x3D; classify(valueOfFeat, featLabels, testVec)
+    else: classLabel &#x3D; valueOfFeat
+    return classLabel<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="使用算法：决策树的存储"><a href="#使用算法：决策树的存储" class="headerlink" title="使用算法：决策树的存储"></a>使用算法：决策树的存储</h3><p>构造决策树是很耗时的任务，即使处理很小的数据集，如前面的样本数据，也要花费几秒的时间，如果数据集很大，将会耗费很多<code>计算时间</code>。然而用创建好的决策树解决分类问题，则可以很快完成。因此，为了节省计算时间，最好能够在每次执行分类时调用已经构造好的决策树。为了解决这个问题，需要使用Python模块<code>picke</code>序列化对象，序列化对象可以在<code>磁盘</code>上保存对象，并在需要的时候读取出来。任何对象都可以执行序列化操作，字典对象也不例外。<br><strong>使用pickle模块存储决策树</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def storeTree(inputTree,filename):
+    import pickle
+    fw &#x3D; open(filename,&#39;w&#39;)
+    pickle.dump(inputTree,fw)
+    fw.close()
+    
+def grabTree(filename):
+    import pickle
+    fr &#x3D; open(filename)
+    return pickle.load(fr)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过上面的代码，我们可以将分类器存储在硬盘上,而不用每次对数据分类时重新学习一遍，这也是决策树的优点之一，我们可以预先提炼并存储数据集中包含的知识信息，在需要对事物进行分类时再使用这些知识。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>(1) 易于理解和解释，决策树可以可视化。<br>(2) 几乎不需要数据预处理。其他方法经常需要数据标准化，创建虚拟变量和删除缺失值。<br>(3) 使用树的花费（例如预测数据）是训练数据点(data points)数量的对数。<br>(4) 可以同时处理数值变量和分类变量。其他方法大都适用于分析一种变量的集合。<br>(5) 可以处理多值输出变量问题。<br>(6) 使用白盒模型。如果一个情况被观察到，使用逻辑判断容易表示这种规则。相反，如果是黑盒模型（例如人工神经网络），结果会非常难解释。<br>(7) 即使对真实模型来说，假设无效的情况下，也可以较好的适用。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>(1) 决策树学习可能创建一个过于复杂的树，并不能很好的预测数据。也就是过拟合。修剪机制（现在不支持），设置一个叶子节点需要的最小样本数量，或者数的最大深度，可以避免过拟合。<br>(2) 决策树可能是不稳定的，因为即使非常小的变异，可能会产生一颗完全不同的树。这个问题通过decision trees with an ensemble来缓解。<br>(3) 学习一颗最优的决策树是一个NP-完全问题under several aspects of optimality and even for simple concepts。因此，传统决策树算法基于启发式算法，例如贪婪算法，即每个节点创建最优决策。这些算法不能产生一个全家最优的决策树。对样本和特征随机抽样可以降低整体效果偏差。<br>(4) 概念难以学习，因为决策树没有很好的解释他们，例如，XOR, parity or multiplexer problems.<br>(5) 如果某些分类占优势，决策树将会创建一棵有偏差的树。因此，建议在训练之前，先抽样使样本均衡。</p>
+<hr>
+<blockquote>
+<p>🤯本文作者：Ivan<br>🔗本文链接：<a target="_blank" rel="noopener" href="https://ivan020121.github.io/2022/04/01/Decisiontree/">https://ivan020121.github.io/2022/04/01/Decisiontree/</a><br>🔁版权声明：本站所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">©BY-NC-SA</a>许可协议。转载请注明出处！</p>
+</blockquote>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://images.unsplash.com/photo-1607242792481-37f27e1d74e1?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTB8fGNhdHxlbnwwfHwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/04/02/Naivebayes/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Naive bayes</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://images.unsplash.com/photo-1415369629372-26f2fe60c467?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fGNhdHxlbnwwfHwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/03/31/kNN/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">K-nearest neighbor</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0fGVufDB8MnwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60" class="soft-size--round soft-style--box" alt="Ivan">
+    
+    
+      <h2>Ivan</h2>
+    
+    
+      <p>学无止境</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>6</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        3
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        7
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Github%E4%BB%A3%E7%A0%81%E8%8E%B7%E5%8F%96"><span class="toc-number">1.</span> <span class="toc-text">Github代码获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E6%9E%84%E9%80%A0"><span class="toc-number">2.</span> <span class="toc-text">决策树的构造</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A"><span class="toc-number">2.1.</span> <span class="toc-text">信息增益</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%92%E5%88%86%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">2.2.</span> <span class="toc-text">划分数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E6%9E%84%E5%BB%BA%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-number">2.3.</span> <span class="toc-text">递归构建决策树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8Python%E4%B8%AD%E4%BD%BF%E7%94%A8Matplotlib%E6%B3%A8%E8%A7%A3%E7%BB%98%E5%88%B6%E6%A0%91%E5%BD%A2%E5%9B%BE"><span class="toc-number">3.</span> <span class="toc-text">在Python中使用Matplotlib注解绘制树形图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Matplotlib%E6%B3%A8%E8%A7%A3"><span class="toc-number">3.1.</span> <span class="toc-text">Matplotlib注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%B3%A8%E8%A7%A3%E6%A0%91"><span class="toc-number">3.2.</span> <span class="toc-text">构造注解树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AD%98%E5%82%A8%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">测试和存储分类器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%AE%97%E6%B3%95%EF%BC%9A%E4%BD%BF%E7%94%A8%E5%86%B3%E7%AD%96%E6%A0%91%E6%89%A7%E8%A1%8C%E5%88%86%E7%B1%BB"><span class="toc-number">4.1.</span> <span class="toc-text">测试算法：使用决策树执行分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%AE%97%E6%B3%95%EF%BC%9A%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">4.2.</span> <span class="toc-text">使用算法：决策树的存储</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-number">5.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">5.2.</span> <span class="toc-text">缺点</span></a></li></ol></li></ol>
+  </div>
+</section>
+
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>我的动力来自盲目和愚钝。</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Machine-Learning/">
+            Machine Learning (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Machine-Learning/Classification/">
+            Classification (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            学习笔记 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/Decision-tree/" style="font-size: 10px;" class="tags-cloud-0">Decision tree</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;" class="tags-cloud-10">Machine Learning</a> <a href="/tags/Markdown/" style="font-size: 10px;" class="tags-cloud-0">Markdown</a> <a href="/tags/Naive-bayes/" style="font-size: 10px;" class="tags-cloud-0">Naive bayes</a> <a href="/tags/Python/" style="font-size: 20px;" class="tags-cloud-10">Python</a> <a href="/tags/VSCode/" style="font-size: 10px;" class="tags-cloud-0">VSCode</a> <a href="/tags/kNN/" style="font-size: 10px;" class="tags-cloud-0">kNN</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Ivan020121" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2022 <a href="/" target="_blank">Ivan</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>

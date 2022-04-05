@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 6.1.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="Ivan">
+  
+
+  
+
+  
+
+  <title>Naive bayes | Ivan</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://images.unsplash.com/photo-1607242792481-37f27e1d74e1?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTB8fGNhdHxlbnwwfHwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          Ivan
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/message">留言</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">Naive bayes</h1>
+          <h2 class="title-sub-wrap">
+            <strong>Ivan</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-04-02T06:16:28.000Z" itemprop="datePublished">2022-04-02</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/Machine-Learning/">📒 Machine Learning</a></li>
+  
+    <li><a href="/categories/Machine-Learning/Classification/">📒 Classification</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/Python/">🏷️ Python</a></li>
+  
+    <li><a href="/tags/Machine-Learning/">🏷️ Machine Learning</a></li>
+  
+    <li><a href="/tags/Naive-bayes/">🏷️ Naive bayes</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="基于概率论的分类方法：朴素贝叶斯"><a href="#基于概率论的分类方法：朴素贝叶斯" class="headerlink" title="基于概率论的分类方法：朴素贝叶斯"></a>基于概率论的分类方法：朴素贝叶斯</h1><blockquote>
+<p><strong>本章内容</strong><br>使用概率分布进行分类<br>学习朴素贝叶斯分类器<br>解析RSS源数据<br>使用朴素贝叶斯来分析不同地区的态度</p>
+</blockquote>
+<p> 朴素贝叶斯算法(Naive bayes)是<code>有监督</code>的学习算法，解决的是<code>分类</code>问题，如客户是否流失、是否值得投资、信用等级评定等多分类问题。该算法的优点在于简单易懂、学习效率高、在某些领域的分类问题中能够与决策树、神经网络相媲美。但由于该算法以自变量之间的<code>独立（条件特征独立）性</code>和连续变量的<code>正态性</code>假设为前提，就会导致算法精度在某种程度上受影响。本文主要讲解如何在实际环境中应用朴素贝叶斯算法，同时涉及如何使用Python工具和相关机器学习术语，算法原理详见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_17073497/article/details/81076250?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164888068616780271517931%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164888068616780271517931&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-81076250.142%5Ev5%5Epc_search_result_cache,157%5Ev4%5Econtrol&utm_term=%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8%E5%8E%9F%E7%90%86&spm=1018.2226.3001.4187">朴素贝叶斯分类器 详细解析</a>。<br> <img src="https://img-blog.csdnimg.cn/20190529151055296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FpdV96aGlfbGlhbw==,size_16,color_FFFFFF,t_70"></p>
+<h2 id="基于贝叶斯决策理论的分类方法"><a href="#基于贝叶斯决策理论的分类方法" class="headerlink" title="基于贝叶斯决策理论的分类方法"></a>基于贝叶斯决策理论的分类方法</h2><p> <strong>朴素贝叶斯</strong></p>
+<blockquote>
+<p>优点：在数据较少的情况下仍有效，可以处理多类别问题。<br> 缺点：对于输入数据的准备方式较为敏感。<br> 适用数据类型：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_17478541/article/details/78027246?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-2-78027246.pc_agg_new_rank&utm_term=%E6%A0%87%E7%A7%B0%E5%9E%8B%E6%95%B0%E6%8D%AE&spm=1000.2123.3001.4430">标称型数据</a>。</p>
+</blockquote>
+<p> 朴素贝叶斯是<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013413471/article/details/79070948?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164896072916782248537620%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164896072916782248537620&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-79070948.142%5Ev5%5Epc_search_result_cache,157%5Ev4%5Econtrol&utm_term=%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%86%B3%E7%AD%96%E8%AE%BA&spm=1018.2226.3001.4187">贝叶斯决策理论</a>的一部分，假设现在我们有一个数据集，它由两类数据组成，数据分布如下图所示：<br><img src="https://img-blog.csdnimg.cn/20190112101419660.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTcwMjI0,size_16,color_FFFFFF,t_70"><br>我们现在用p1(x,y)表示数据点(x,y)属于类别1(图中红色圆点表示的类别)的概率，用p2(x,y)表示数据点(x,y)属于类别2(图中蓝色三角形表示的类别)的概率，那么对于一个新数据点(x,y)，可以用下面的规则来判断它的类别：</p>
+<blockquote>
+<p>· 如果p1(x,y) &gt; p2(x,y)，那么类别为1<br>· 如果p1(x,y) &lt; p2(x,y)，那么类别为2</p>
+</blockquote>
+<p>也就是说，我们会选择高概率对应的类别。这就是贝叶斯决策理论的核心思想，即选择具有最高概率的决策。</p>
+<h2 id="使用朴素贝叶斯进行文档分类"><a href="#使用朴素贝叶斯进行文档分类" class="headerlink" title="使用朴素贝叶斯进行文档分类"></a>使用朴素贝叶斯进行文档分类</h2><p>机器学习的一个重要应用就是文档的自动分类。在<code>文档分类</code>中，整个文档(如一电子邮件)是实例，而电子邮件中的某些元素则构成特征。<br><code>朴素贝叶斯</code>是贝叶斯分类器的一个扩展，是用于文档分类的常用算法。<br><img src="https://img-blog.csdnimg.cn/20210404203825192.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d1emhvbmdxaWFuZw==,size_1,color_FFFFFF,t_70#pic_center"><br><strong>朴素贝叶斯的一般过程</strong></p>
+<blockquote>
+<p>(1) 收集数据：可以使用任何方法。本文使用RSS源。<br>(2) 准备数据：需要数值型或者布尔型。<br>(3) 分析数据：有大量特征时，绘制特征作用不大，此时使用直方图效果更好。<br>(4) 训练算法：计算不同独立特征的条件概率。<br>(5) 测试算法：计算错误率。<br>(6) 使用算法：可以在任意的分类场景中使用朴素贝叶斯分类器。</p>
+</blockquote>
+<h2 id="使用Python进行文本分类"><a href="#使用Python进行文本分类" class="headerlink" title="使用Python进行文本分类"></a>使用Python进行文本分类</h2><p>要从文本中获得特征，需要先拆分文本。这里的特征是来自文本的<code>词条(token)</code>，一个词条是字符的任意组合。可以把词条想象为单词，也可以使用非单词词条，如URL、IP地址或者任意其他其它字符串。然后将每一个文本片段表示为一个人词条向量，其中值为1表示词条出现在文档中，0表示词条未出现。<br><img src="https://img-blog.csdnimg.cn/20210404204149798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d1emhvbmdxaWFuZw==,size_1,color_FFFFFF,t_70#pic_center"></p>
+<h3 id="准备数据：从文本中构建词向量"><a href="#准备数据：从文本中构建词向量" class="headerlink" title="准备数据：从文本中构建词向量"></a>准备数据：从文本中构建词向量</h3><p>我们把文本看成单词向量或者词条向量，也就是说将句子转换为向量。考虑出现所有文档中的单词，再决定将哪些单词纳入词汇表或者说所要的词汇集合，然后必须要将每一篇文档转换为词汇表上的向量。简单起见，我们先假设已经将本文切分完毕，存放到列表中，并对词汇向量进行分类标注。<br><strong>词表到向量的转换函数</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def loadDataSet():
+    postingList&#x3D;[[&#39;my&#39;, &#39;dog&#39;, &#39;has&#39;, &#39;flea&#39;, &#39;problems&#39;, &#39;help&#39;, &#39;please&#39;],
+                 [&#39;maybe&#39;, &#39;not&#39;, &#39;take&#39;, &#39;him&#39;, &#39;to&#39;, &#39;dog&#39;, &#39;park&#39;, &#39;stupid&#39;],
+                 [&#39;my&#39;, &#39;dalmation&#39;, &#39;is&#39;, &#39;so&#39;, &#39;cute&#39;, &#39;I&#39;, &#39;love&#39;, &#39;him&#39;],
+                 [&#39;stop&#39;, &#39;posting&#39;, &#39;stupid&#39;, &#39;worthless&#39;, &#39;garbage&#39;],
+                 [&#39;mr&#39;, &#39;licks&#39;, &#39;ate&#39;, &#39;my&#39;, &#39;steak&#39;, &#39;how&#39;, &#39;to&#39;, &#39;stop&#39;, &#39;him&#39;],
+                 [&#39;quit&#39;, &#39;buying&#39;, &#39;worthless&#39;, &#39;dog&#39;, &#39;food&#39;, &#39;stupid&#39;]]
+    # 1 is abusive, 0 not
+    classVec &#x3D; [0,1,0,1,0,1]
+    return postingList,classVec
+                 
+def createVocabList(dataSet):
+    # create empty set
+    vocabSet &#x3D; set([])
+    for document in dataSet:
+        # union of the two sets
+        vocabSet &#x3D; vocabSet | set(document)
+    return list(vocabSet)
+
+def setOfWords2Vec(vocabList, inputSet):
+    returnVec &#x3D; [0]*len(vocabList)
+    for word in inputSet:
+        if word in vocabList:
+            returnVec[vocabList.index(word)] &#x3D; 1
+        else: print(&quot;the word: %s is not in my Vocabulary!&quot; % word)
+    return returnVec<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>函数<code>loadDataSet()</code>创建了一些实验样本，该函数返回的第一个变量是进行词条切分后的文档集合。loadDataSet()返回的第二个变量是一个类别标签的集合。这里有两类，<code>侮辱性和非侮辱性</code>。<br>函数<code>createVocabList()</code>会创建一个包含在所有文档中出现的不重复词的列表，为此使用了Python的<a target="_blank" rel="noopener" href="https://blog.csdn.net/YKenan/article/details/88357847?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164896179216781685319786%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164896179216781685319786&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-88357847.142%5Ev5%5Epc_search_result_cache,157%5Ev4%5Econtrol&utm_term=Python%E7%9A%84set&spm=1018.2226.3001.4187">set</a>数据类型。<br>获得词汇表后，便可以使用函数<code>setOfWords2Vec()</code>，该函数的输入参数为词汇表及某个文档，输出的是文档向量，向量的每一个元素为<code>0或1</code>，分别表示词汇表中的单词在输入文档中是否出现。</p>
+<h3 id="训练算法：从词向量计算概率"><a href="#训练算法：从词向量计算概率" class="headerlink" title="训练算法：从词向量计算概率"></a>训练算法：从词向量计算概率</h3><p>我们已经得到了词条向量。接下来，我们就可以通过词条向量训练朴素贝叶斯分类器，该函数的伪代码如下：</p>
+<blockquote>
+<p>计算每个类别中的文档数目<br>对每篇训练文档：<br>　　对每个类别：<br>　　　　如果词条出现在文档中-&gt;增加该词条的计数值<br>　　　　增加所有词条的计数值<br>对每个类别：<br>　　对每个词条：<br>　　　　将该词条的数目除以总词条数目得到条件概率<br>返回每个类别的条件概率</p>
+</blockquote>
+<p>该函数的Python实现使用了NumPy的一些函数，所以首添加<code>from numoy import *</code>。<br><strong>朴素贝叶斯分类器训练函数</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from numpy import *
+
+def trainNB0(trainMatrix,trainCategory):
+    numTrainDocs &#x3D; len(trainMatrix)
+    numWords &#x3D; len(trainMatrix[0])
+    pAbusive &#x3D; sum(trainCategory)&#x2F;float(numTrainDocs)
+    p0Num &#x3D; zeros(numWords); p1Num &#x3D; zeros(numWords)
+    p0Denom &#x3D; 0.0; p1Denom &#x3D; 0.0
+    for i in range(numTrainDocs):
+        if trainCategory[i] &#x3D;&#x3D; 1:
+            p1Num +&#x3D; trainMatrix[i]
+            p1Denom +&#x3D; sum(trainMatrix[i])
+        else:
+            p0Num +&#x3D; trainMatrix[i]
+            p0Denom +&#x3D; sum(trainMatrix[i])
+    p1Vect &#x3D; p1Num&#x2F;p1Denom
+    p0Vect &#x3D; p0Num&#x2F;p0Denom
+    return p0Vect,p1Vect,pAbusive<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>代码函数中的输入参数为文档矩阵<code>trainMatrix</code>，以及由每篇文档类别标签所构成的向量<code>trainCategory</code>。函数的返回值为两个向量一个概率，p0Vect以及p1Vect代表在给定文档类别条件下词汇表中单词的出现概率(<code>条件概率</code>)，pAbusive代表任意文档属于侮辱性文档的概率。</p>
+<h3 id="测试算法：根据现实情况修改分类器"><a href="#测试算法：根据现实情况修改分类器" class="headerlink" title="测试算法：根据现实情况修改分类器"></a>测试算法：根据现实情况修改分类器</h3><p>运用trainNB0()函数进行分类之前，还需要解决函数中的一些缺陷。</p>
+<blockquote>
+<p><strong>问题1：</strong> 利用贝叶斯分类器对文档进行分类时，要计算多个概率的乘积以获得文档属于某个类别的概率，即计算p(w0|1)p(w1|1)p(w2|1)。如果其中有一个概率值为0，那么最后的成绩也为0；<br><strong>解决：</strong> 所有词的出现数初始化为1，并将分母初始化为2。这种做法就叫做拉普拉斯平滑(Laplace Smoothing)又被称为加1平滑，是比较常用的平滑方法，它就是为了解决0概率问题。<br><strong>问题2：</strong> 下溢出，由于太多很小的数相乘，计算结果可能就变成0了，<br><strong>解决：</strong> 对乘积结果取自然对数。通过求对数可以避免下溢出或者浮点数舍入导致的错误。</p>
+</blockquote>
+<p>问题1的解决办法称为<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43868020/article/details/106602799?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164904583716782248573136%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164904583716782248573136&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-106602799.142%5Ev5%5Epc_search_result_cache,157%5Ev4%5Econtrol&utm_term=%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E5%B9%B3%E6%BB%91&spm=1018.2226.3001.4187">拉普拉斯平滑</a>(Laplacian smoothing)，是解决<code>零概率</code>的问题的常用方法。<br>问题2的解决办法采用了<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013185349/article/details/115482897?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164904629716780271988651%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164904629716780271988651&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-115482897.142%5Ev5%5Epc_search_result_cache,157%5Ev4%5Econtrol&utm_term=%E5%8F%96%E5%AF%B9%E6%95%B0%E6%B3%95&spm=1018.2226.3001.4187">取对数法</a>，ln(f(x))会随f(x)的增大而增大，这表明想求函数的最大值时，可以使用该函数的<code>自然对数</code>来替换原函数进行求解。<br><img src="https://img-blog.csdnimg.cn/20190212180307585.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L215c19teXM=,size_16,color_FFFFFF,t_70"><br>现在使用NumPy向量处理功能构建完整的分类器。<br><strong>朴素贝叶斯分类函数</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
+    # element-wise mult
+    p1 &#x3D; sum(vec2Classify * p1Vec) + log(pClass1)
+    p0 &#x3D; sum(vec2Classify * p0Vec) + log(1.0 - pClass1)
+    if p1 &gt; p0:
+        return 1
+    else: 
+        return 0
+
+def testingNB():
+    listOPosts,listClasses &#x3D; loadDataSet()
+    myVocabList &#x3D; createVocabList(listOPosts)
+    trainMat&#x3D;[]
+    for postinDoc in listOPosts:
+        trainMat.append(setOfWords2Vec(myVocabList, postinDoc))
+    p0V,p1V,pAb &#x3D; trainNB0(array(trainMat),array(listClasses))
+    testEntry &#x3D; [&#39;love&#39;, &#39;my&#39;, &#39;dalmation&#39;]
+    thisDoc &#x3D; array(setOfWords2Vec(myVocabList, testEntry))
+    print(testEntry,&#39;classified as: &#39;,classifyNB(thisDoc,p0V,p1V,pAb))
+    testEntry &#x3D; [&#39;stupid&#39;, &#39;garbage&#39;]
+    thisDoc &#x3D; array(setOfWords2Vec(myVocabList, testEntry))
+    print(testEntry,&#39;classified as: &#39;,classifyNB(thisDoc,p0V,p1V,pAb))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>分类函数需要4个输入：要分类的向量vec2Classify以及使用函数trainNB0()计算得到的三个概率。最后比较类别的概率返回大概率对应的类别标签。</p>
+<h3 id="准备数据：文档词袋模型"><a href="#准备数据：文档词袋模型" class="headerlink" title="准备数据：文档词袋模型"></a>准备数据：文档词袋模型</h3><p><strong>词集模型(set-of-words model)：</strong> 将每个词的出现与否作为特征，即将出现单词的对应数值设为1。<br><strong>词袋模型(bag-of-words model)：</strong> 将每个词出现的次数作为特征，即将出现单词的对应数值增加1。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def bagOfWords2VecMN(vocabList, inputSet):
+    returnVec &#x3D; [0]*len(vocabList)
+    for word in inputSet:
+        if word in vocabList:
+            returnVec[vocabList.index(word)] +&#x3D; 1
+    return returnVec<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="示例：使用朴素贝叶斯过滤垃圾邮件"><a href="#示例：使用朴素贝叶斯过滤垃圾邮件" class="headerlink" title="示例：使用朴素贝叶斯过滤垃圾邮件"></a>示例：使用朴素贝叶斯过滤垃圾邮件</h2><p><strong>示例：使用朴素贝叶斯对电子邮件进行分类</strong></p>
+<blockquote>
+<p>(1) 收集数据：提供文本文件。<br>(2) 准备数据：将文本文件解析成词条向量。<br>(3) 分析数据：检查词条确保解析的正确性。<br>(4) 训练算法：使用trainNB0()函数。<br>(5) 使用classifyNB()，并且构建一个新的测试函数来计算文档集的错误率。<br>(6) 构建一个完整的程序对一组文档进行分类，将错分的文档输出到屏幕上。</p>
+</blockquote>
+<h3 id="测试算法：使用朴素贝叶斯进行交叉验证"><a href="#测试算法：使用朴素贝叶斯进行交叉验证" class="headerlink" title="测试算法：使用朴素贝叶斯进行交叉验证"></a>测试算法：使用朴素贝叶斯进行交叉验证</h3><p>我们将文本解析器和分类器集成到一个完整的函数当中，函数将读取数据集email文件夹下的spam和ham数据，并对其进行交叉验证。<br><strong>文件解析及完整的垃圾邮件测试函数</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">#input is big string, #output is word list
+def textParse(bigString):
+    import re
+    listOfTokens &#x3D; re.split(r&#39;\W*&#39;, bigString)
+    return [tok.lower() for tok in listOfTokens if len(tok) &gt; 2] 
+    
+def spamTest():
+    docList&#x3D;[]; classList &#x3D; []; fullText &#x3D;[]
+    for i in range(1,26):
+        wordList &#x3D; textParse(open(&#39;email&#x2F;spam&#x2F;%d.txt&#39; % i).read())
+        docList.append(wordList)
+        fullText.extend(wordList)
+        classList.append(1)
+        wordList &#x3D; textParse(open(&#39;email&#x2F;ham&#x2F;%d.txt&#39; % i).read())
+        docList.append(wordList)
+        fullText.extend(wordList)
+        classList.append(0)
+    # create vocabulary
+    vocabList &#x3D; createVocabList(docList)
+    # create test set
+    trainingSet &#x3D; range(50); testSet&#x3D;[]
+    for i in range(10):
+        randIndex &#x3D; int(random.uniform(0,len(trainingSet)))
+        testSet.append(trainingSet[randIndex])
+        del(trainingSet[randIndex])  
+    trainMat&#x3D;[]; trainClasses &#x3D; []
+    # train the classifier (get probs) trainNB0
+    for docIndex in trainingSet:
+        trainMat.append(bagOfWords2VecMN(vocabList, docList[docIndex]))
+        trainClasses.append(classList[docIndex])
+    p0V,p1V,pSpam &#x3D; trainNB0(array(trainMat),array(trainClasses))
+    errorCount &#x3D; 0
+    # classify the remaining items
+    for docIndex in testSet:
+        wordVector &#x3D; bagOfWords2VecMN(vocabList, docList[docIndex])
+        if classifyNB(array(wordVector),p0V,p1V,pSpam) !&#x3D; classList[docIndex]:
+            errorCount +&#x3D; 1
+            print(&quot;classification error&quot;,docList[docIndex])
+    print(&#39;the error rate is: &#39;,float(errorCount)&#x2F;len(testSet))
+    #return vocabList,fullText<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>第一个函数<code>textParse()</code>接受一个大写字符串并将其解析为字符串。该函数去掉少于两个字符的字符串，并将所有字符串转换为<code>小写</code>。<br>第二个函数<code>spamTest()</code>对贝叶斯垃圾邮件分类器进行自动化处理。导入<code>spam和ham</code>文件夹下的数据并构建一个训练集和测试集。遍历测试集，对其中每封邮件进行分类，最后给出总的错误百分比。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>1.在训练朴素贝叶斯分类器之前，要处理好训练集，文本的清洗还是有很多需要学习的东西。<br>2.根据提取的分类特征将文本向量化，然后训练朴素贝叶斯分类器。<br>3.去高频词汇数量的不同，对结果也是有影响的的。<br>4.拉普拉斯平滑对于改善朴素贝叶斯分类器的分类效果有着积极的作用。</p>
+<hr>
+<blockquote>
+<p>🤯本文作者：Ivan<br>🔗本文链接：<br>🔁版权声明：本站所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">©BY-NC-SA</a>许可协议。转载请注明出处！</p>
+</blockquote>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://images.unsplash.com/photo-1572252821143-035a024857ac?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTJ8fGNhdHxlbnwwfHwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/04/01/Decisiontree/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Decision tree</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0fGVufDB8MnwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60" class="soft-size--round soft-style--box" alt="Ivan">
+    
+    
+      <h2>Ivan</h2>
+    
+    
+      <p>学无止境</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>6</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        3
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        7
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%86%B3%E7%AD%96%E7%90%86%E8%AE%BA%E7%9A%84%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">基于贝叶斯决策理论的分类方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%BF%9B%E8%A1%8C%E6%96%87%E6%A1%A3%E5%88%86%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">使用朴素贝叶斯进行文档分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Python%E8%BF%9B%E8%A1%8C%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text">使用Python进行文本分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%EF%BC%9A%E4%BB%8E%E6%96%87%E6%9C%AC%E4%B8%AD%E6%9E%84%E5%BB%BA%E8%AF%8D%E5%90%91%E9%87%8F"><span class="toc-number">3.1.</span> <span class="toc-text">准备数据：从文本中构建词向量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E7%AE%97%E6%B3%95%EF%BC%9A%E4%BB%8E%E8%AF%8D%E5%90%91%E9%87%8F%E8%AE%A1%E7%AE%97%E6%A6%82%E7%8E%87"><span class="toc-number">3.2.</span> <span class="toc-text">训练算法：从词向量计算概率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%AE%97%E6%B3%95%EF%BC%9A%E6%A0%B9%E6%8D%AE%E7%8E%B0%E5%AE%9E%E6%83%85%E5%86%B5%E4%BF%AE%E6%94%B9%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-number">3.3.</span> <span class="toc-text">测试算法：根据现实情况修改分类器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%EF%BC%9A%E6%96%87%E6%A1%A3%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.4.</span> <span class="toc-text">准备数据：文档词袋模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%BF%87%E6%BB%A4%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">示例：使用朴素贝叶斯过滤垃圾邮件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%AE%97%E6%B3%95%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%BF%9B%E8%A1%8C%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="toc-number">4.1.</span> <span class="toc-text">测试算法：使用朴素贝叶斯进行交叉验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+  </div>
+</section>
+
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>我的动力来自盲目和愚钝。</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Machine-Learning/">
+            Machine Learning (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Machine-Learning/Classification/">
+            Classification (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            学习笔记 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/Decision-tree/" style="font-size: 10px;" class="tags-cloud-0">Decision tree</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;" class="tags-cloud-10">Machine Learning</a> <a href="/tags/Markdown/" style="font-size: 10px;" class="tags-cloud-0">Markdown</a> <a href="/tags/Naive-bayes/" style="font-size: 10px;" class="tags-cloud-0">Naive bayes</a> <a href="/tags/Python/" style="font-size: 20px;" class="tags-cloud-10">Python</a> <a href="/tags/VSCode/" style="font-size: 10px;" class="tags-cloud-0">VSCode</a> <a href="/tags/kNN/" style="font-size: 10px;" class="tags-cloud-0">kNN</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Ivan020121" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2022 <a href="/" target="_blank">Ivan</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>

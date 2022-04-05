@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 6.1.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="Ivan">
+  
+
+  
+
+  
+
+  <title>K-nearest neighbor | Ivan</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://images.unsplash.com/photo-1415369629372-26f2fe60c467?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fGNhdHxlbnwwfHwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          Ivan
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/message">留言</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">K-nearest neighbor</h1>
+          <h2 class="title-sub-wrap">
+            <strong>Ivan</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-03-31T12:08:26.000Z" itemprop="datePublished">2022-03-31</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/Machine-Learning/">📒 Machine Learning</a></li>
+  
+    <li><a href="/categories/Machine-Learning/Classification/">📒 Classification</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/Python/">🏷️ Python</a></li>
+  
+    <li><a href="/tags/Machine-Learning/">🏷️ Machine Learning</a></li>
+  
+    <li><a href="/tags/kNN/">🏷️ kNN</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="k-近邻算法"><a href="#k-近邻算法" class="headerlink" title="k-近邻算法"></a>k-近邻算法</h1><blockquote>
+<p><strong>本章内容</strong><br>k-近邻分类算法<br>从文本文件中解析和导入数据<br>使用Matplotlib创建扩散图<br>归一化数值</p>
+</blockquote>
+<p>K-近邻(k-Nearest Neighbor，KNN)，是一种常用于<code>分类</code>的算法，是有成熟理论支撑的、较为简单的经典机器学习算法之一。本文主要讲解如何在实际环境中应用k-近邻分类算法，同时涉及如何使用Python工具和相关机器学习术语，算法原理详见<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011067360/article/details/23941577?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164872911216780261937133%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164872911216780261937133&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-23941577.142%5Ev5%5Epc_search_result_cache,143%5Ev6%5Eregister&utm_term=k%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95&spm=1018.2226.3001.4187">数据挖掘十大算法–K近邻算法</a>。</p>
+<h2 id="Github代码获取"><a href="#Github代码获取" class="headerlink" title="Github代码获取"></a>Github代码获取</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/Ivan020121/Machine-Learning/tree/main/K-nearest%20neighbor%20algorithm">https://github.com/Ivan020121/Machine-Learning/tree/main/K-nearest%20neighbor%20algorithm</a></p>
+</blockquote>
+<h2 id="k-近邻算法概述"><a href="#k-近邻算法概述" class="headerlink" title="k-近邻算法概述"></a>k-近邻算法概述</h2><p>简单地说，k-近邻算法采用测量不同特征值之间的距离方法进行分类。</p>
+<blockquote>
+<p><strong>k-近邻算法</strong><br>优点：精度高、对异常值不敏感、无数据输入假定。<br>缺点：计算复杂度高、空间复杂度高。<br>适用数据范围：数值型和标称型。</p>
+</blockquote>
+<p>它的工作原理是：存在一个<code>样本数据集合</code>，并且样本集中的每个数据都存在标签，即我们知道样本集中每一数据与所属分类的对应关系。输入没有标签的新数据后，将新的数据的每个特征与样本集中数据对应的特征进行比较，然后算法提取样本<code>最相似数据</code>(最近邻)的分类标签。一般来说，我们只选择样本数据集中前k个最相似的数据，这就是k-近邻算法中k的出处，通常k是不大于20的整数。最后，选择k个最相似数据中出现次数最多的分类，作为新数据的分类。</p>
+<blockquote>
+<p><strong>k-近邻算法的一般流程</strong><br>(1) 收集数据：可以使用任何方法<br>(2) 准备数据：距离计算所需要的数值，最好是结构化的数据格式。<br>(3) 分析数据：可以使用任何方法。<br>(4) 训练算法：此步骤不适用于k-近邻算法。<br>(5) 测试算法：计算错误率。<br>(6) 使用算法：首先需要输入样本数据和结构化的输出结果，然后运行k-近邻算法判定输入数据分别属于哪个分类，最后应用对计算出的分类执行后续的处理。</p>
+</blockquote>
+<h3 id="准备：使用Python导入数据"><a href="#准备：使用Python导入数据" class="headerlink" title="准备：使用Python导入数据"></a>准备：使用Python导入数据</h3><p>首先，创建名为<code>kNN.py</code>的Python模块。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from numpy import*
+import operator
+
+def createDataSet():
+    group &#x3D; array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])
+    labels &#x3D; [&#39;A&#39;,&#39;A&#39;,&#39;B&#39;,&#39;B&#39;]
+    return group, labels<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20210206003808591.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JpbHZxaW5nMTA4,size_16,color_FFFFFF,t_70"><br><em>k-近邻算法：带有4个数据点的简单例子</em><br>在上面的代码中，我们导入了两个模块：一个是科学计算包NumPy，第二个是运算符模块，k-近邻算法执行排序操作时将使用这个模块提供的函数，后面我们将进一步介绍。</p>
+<h3 id="实施kNN分类算法"><a href="#实施kNN分类算法" class="headerlink" title="实施kNN分类算法"></a>实施kNN分类算法</h3><blockquote>
+<p><strong>k-近邻算法的伪代码</strong><br>对未知类别属性的数据集中的每个点依次执行以下操作：<br>(1) 计算已知类别数据集中的点与当前点之间的距离；<br>(2) 按照距离递增次序排序；<br>(3) 选取与当前点距离最小的k个点；<br>(4) 确定前k个点所在类别的出现频率；<br>(5) 返回前k个点出现频率最高的类别作为当前点的预测。</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def classify0(inX, dataSet, labels, k):
+    dataSetSize &#x3D; dataSet.shape[0]
+    diffMat &#x3D; tile(inX, (dataSetSize,1)) - dataSet
+    sqDiffMat &#x3D; diffMat**2
+    sqDistances &#x3D; sqDiffMat.sum(axis&#x3D;1)
+    distances &#x3D; sqDistances**0.5
+    sortedDistIndicies &#x3D; distances.argsort()     
+    classCount&#x3D;&#123;&#125;          
+    for i in range(k):
+        voteIlabel &#x3D; labels[sortedDistIndicies[i]]
+        classCount[voteIlabel] &#x3D; classCount.get(voteIlabel,0) + 1
+    sortedClassCount &#x3D; sorted(classCount.items(), key&#x3D;operator.itemgetter(1), reverse&#x3D;True)
+    return sortedClassCount[0][0]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>classify0()函数有4个参数输入：用于分类的输入向量是inX，输入的训练样本集为dataSet，标签向量为labels，最后的参数<code>k</code>表示用于选择<code>最近邻居的数目</code>，其中标签向量的元素数目和矩阵dataSet的行数相同。</p>
+<h2 id="示例：使用k-近邻算法改进约会网站的配对效果"><a href="#示例：使用k-近邻算法改进约会网站的配对效果" class="headerlink" title="示例：使用k-近邻算法改进约会网站的配对效果"></a>示例：使用k-近邻算法改进约会网站的配对效果</h2><blockquote>
+<p><strong>示例：在约会网站上使用k-近邻算法</strong><br>(1) 收集数据：提供文本文件。<br>(2) 准备数据：使用Python解析文本文件。<br>(3) 分析数据：使用Matplotlib画二维扩散图。<br>(4) 训练算法：此步骤不适应与k-近邻算法<br>(5) 测试算法：使用海伦提供的部分数据作为测试样本。<br>(6) 使用算法：产生简单的命令行程序，然后海伦可以输入一些特征数据以判断对方是否为自己喜欢的类型。</p>
+</blockquote>
+<h3 id="准备数据：从文本文件中解析式数据"><a href="#准备数据：从文本文件中解析式数据" class="headerlink" title="准备数据：从文本文件中解析式数据"></a>准备数据：从文本文件中解析式数据</h3><p>数据文本文件：datingTestSet2.txt.样本主要包含以下3种数据：</p>
+<blockquote>
+<p>每年获得的飞行常客里程数<br>玩视频游戏所消耗时间百分比<br>每周消费的冰淇淋公升数</p>
+</blockquote>
+<p>在kNN.py中创建名为<code>file2matrix</code>的函数，以此来处理输入格式问题。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def file2matrix(filename):
+    fr &#x3D; open(filename)
+    numberOfLines &#x3D; len(fr.readlines())         #get the number of lines in the file
+    returnMat &#x3D; zeros((numberOfLines,3))        #prepare matrix to return
+    classLabelVector &#x3D; []                       #prepare labels return   
+    fr &#x3D; open(filename)
+    index &#x3D; 0
+    for line in fr.readlines():
+        line &#x3D; line.strip()
+        listFromLine &#x3D; line.split(&#39;\t&#39;)
+        returnMat[index,:] &#x3D; listFromLine[0:3]
+        classLabelVector.append(int(listFromLine[-1]))
+        index +&#x3D; 1
+    return returnMat,classLabelVector<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="分析数据：使用Matplotlib创建散点图"><a href="#分析数据：使用Matplotlib创建散点图" class="headerlink" title="分析数据：使用Matplotlib创建散点图"></a>分析数据：使用Matplotlib创建散点图</h3><p>下面就用Python工具来<code>图形化展示</code>数据内容，以便辨识出一些<code>数据模式</code>。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">import matplotlib
+import matplotlib.pyplot as plt
+
+fig &#x3D; plt.figure()
+ax &#x3D; fig.add_subplot(111)
+ax.scatter(datingDataMat[:, 0], datingDataMat[:, 1], 15.0*array(datingLabels), 15.0*array(datingLabels))
+plt.show()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200216161311282.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zOTAyNTY3OQ==,size_16,color_FFFFFF,t_70"><br><em>约会数据散点图</em></p>
+<h3 id="准备数据：归一化数值"><a href="#准备数据：归一化数值" class="headerlink" title="准备数据：归一化数值"></a>准备数据：归一化数值</h3><p>在量纲不一而对比标准统一的时候需要做归一化，数据归一化的目的是为了把不同来源的数据统一到<code>一个参考系</code>下，这样比较起来才有意义。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def autoNorm(dataSet):
+    minVals &#x3D; dataSet.min(0)
+    maxVals &#x3D; dataSet.max(0)
+    ranges &#x3D; maxVals - minVals
+    normDataSet &#x3D; zeros(shape(dataSet))
+    m &#x3D; dataSet.shape[0]
+    normDataSet &#x3D; dataSet - tile(minVals, (m,1))
+    normDataSet &#x3D; normDataSet&#x2F;tile(ranges, (m,1))   #element wise divide
+    return normDataSet, ranges, minVals<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="测试算法：作为完整程序验证分类器"><a href="#测试算法：作为完整程序验证分类器" class="headerlink" title="测试算法：作为完整程序验证分类器"></a>测试算法：作为完整程序验证分类器</h3><p>为了测试分类器效果，在kNN.py文件中创建<code>datingClassTest</code>。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def datingClassTest():
+    hoRatio &#x3D; 0.50      #hold out 10%
+    datingDataMat,datingLabels &#x3D; file2matrix(&#39;datingTestSet2.txt&#39;)       #load data setfrom file
+    normMat, ranges, minVals &#x3D; autoNorm(datingDataMat)
+    m &#x3D; normMat.shape[0]
+    numTestVecs &#x3D; int(m*hoRatio)
+    errorCount &#x3D; 0.0
+    for i in range(numTestVecs):
+        classifierResult &#x3D; classify0(normMat[i,:],normMat[numTestVecs:m,:],datingLabels[numTestVecs:m],3)
+        print(&quot;the classifier came back with: %d, the real answer is: %d&quot; % (classifierResult, datingLabels[i]))
+        if (classifierResult !&#x3D; datingLabels[i]): errorCount +&#x3D; 1.0
+    print(&quot;the total error rate is: %f&quot; % (errorCount&#x2F;float(numTestVecs)))
+    print(errorCount)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="示例：手写识别系统"><a href="#示例：手写识别系统" class="headerlink" title="示例：手写识别系统"></a>示例：手写识别系统</h2><p>k-近邻分类器的手写识别系统。</p>
+<blockquote>
+<p><strong>示例：使用k-近邻分类器的手写识别系统</strong><br>(1) 收集数据：提供文本文件。<br>(2) 编写img2vector()，将图像格式转换为向量格式。<br>(3) 分析数据：检查数据。<br>(4) 训练算法：此步骤不适用于k-近邻算法<br>(5) 预测分类并与实际分类对比。<br>(6) 使用算法：完成数字识别系统。</p>
+</blockquote>
+<h3 id="准备数据：将图像转换为测试向量"><a href="#准备数据：将图像转换为测试向量" class="headerlink" title="准备数据：将图像转换为测试向量"></a>准备数据：将图像转换为测试向量</h3><p>数据目录：trainingDigits　testDigits<br><img src="https://img-blog.csdnimg.cn/3fe14c9283084035908f4c0e037d0b9d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiU5ZCs6aOO5ZCffg==,size_20,color_FFFFFF,t_70,g_se,x_16"><br>函数img2vector将图像格式化处理为一个<code>1×1024</code>的向量，将上述代码输入到kNN.py文件中。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def img2vector(filename):
+    returnVect &#x3D; zeros((1,1024))
+    fr &#x3D; open(filename)
+    for i in range(32):
+        lineStr &#x3D; fr.readline()
+        for j in range(32):
+            returnVect[0,32*i+j] &#x3D; int(lineStr[j])
+    return returnVect<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="测试算法：用k-近邻分类器的识别手写数字"><a href="#测试算法：用k-近邻分类器的识别手写数字" class="headerlink" title="测试算法：用k-近邻分类器的识别手写数字"></a>测试算法：用k-近邻分类器的识别手写数字</h3><p><code>自包含</code>函数handwritingClassTest()是测试分类器的代码，将其写入kNN.py文件中。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def handwritingClassTest():
+    hwLabels &#x3D; []
+    trainingFileList &#x3D; listdir(&#39;trainingDigits&#39;)           #load the training set
+    m &#x3D; len(trainingFileList)
+    trainingMat &#x3D; zeros((m,1024))
+    for i in range(m):
+        fileNameStr &#x3D; trainingFileList[i]
+        fileStr &#x3D; fileNameStr.split(&#39;.&#39;)[0]     #take off .txt
+        classNumStr &#x3D; int(fileStr.split(&#39;_&#39;)[0])
+        hwLabels.append(classNumStr)
+        trainingMat[i,:] &#x3D; img2vector(&#39;trainingDigits&#x2F;%s&#39; % fileNameStr)
+    testFileList &#x3D; listdir(&#39;testDigits&#39;)        #iterate through the test set
+    errorCount &#x3D; 0.0
+    mTest &#x3D; len(testFileList)
+    for i in range(mTest):
+        fileNameStr &#x3D; testFileList[i]
+        fileStr &#x3D; fileNameStr.split(&#39;.&#39;)[0]     #take off .txt
+        classNumStr &#x3D; int(fileStr.split(&#39;_&#39;)[0])
+        vectorUnderTest &#x3D; img2vector(&#39;testDigits&#x2F;%s&#39; % fileNameStr)
+        classifierResult &#x3D; classify0(vectorUnderTest, trainingMat, hwLabels, 3)
+        print(&quot;the classifier came back with: %d, the real answer is: %d&quot; % (classifierResult, classNumStr))
+        if (classifierResult !&#x3D; classNumStr): errorCount +&#x3D; 1.0
+    print(&quot;\nthe total number of errors is: %d&quot; % errorCount)
+    print(&quot;\nthe total error rate is: %f&quot; % (errorCount&#x2F;float(mTest)))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>k-近邻算法是分类数据最简单最有效的算法，是基于<code>实例</code>的学习，使用算法时我们必须有接近<code>实际数据</code>的训练样本数据。k-近邻算法必须保存全部数据集，如果训练数据集的很大，必须使用大量的存储空间。此外，由于必须对数据集中的每个数据计算距离值，实际使用时可能非常耗时。</p>
+<hr>
+<blockquote>
+<p>🤯本文作者：Ivan<br>🔗本文链接：<a target="_blank" rel="noopener" href="https://ivan020121.github.io/2022/03/31/kNN/">https://ivan020121.github.io/2022/03/31/kNN/</a><br>🔁版权声明：本站所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">©BY-NC-SA</a>许可协议。转载请注明出处！</p>
+</blockquote>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://images.unsplash.com/photo-1572252821143-035a024857ac?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTJ8fGNhdHxlbnwwfHwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/04/01/Decisiontree/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Decision tree</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGNhdHxlbnwwfHwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/03/30/markdown/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Markdown</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0fGVufDB8MnwwfHw=&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60" class="soft-size--round soft-style--box" alt="Ivan">
+    
+    
+      <h2>Ivan</h2>
+    
+    
+      <p>学无止境</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>6</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        3
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        7
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Github%E4%BB%A3%E7%A0%81%E8%8E%B7%E5%8F%96"><span class="toc-number">1.</span> <span class="toc-text">Github代码获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k-%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">k-近邻算法概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%EF%BC%9A%E4%BD%BF%E7%94%A8Python%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-number">2.1.</span> <span class="toc-text">准备：使用Python导入数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%96%BDkNN%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">实施kNN分类算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8k-%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B%E7%BA%A6%E4%BC%9A%E7%BD%91%E7%AB%99%E7%9A%84%E9%85%8D%E5%AF%B9%E6%95%88%E6%9E%9C"><span class="toc-number">3.</span> <span class="toc-text">示例：使用k-近邻算法改进约会网站的配对效果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%EF%BC%9A%E4%BB%8E%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E4%B8%AD%E8%A7%A3%E6%9E%90%E5%BC%8F%E6%95%B0%E6%8D%AE"><span class="toc-number">3.1.</span> <span class="toc-text">准备数据：从文本文件中解析式数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%EF%BC%9A%E4%BD%BF%E7%94%A8Matplotlib%E5%88%9B%E5%BB%BA%E6%95%A3%E7%82%B9%E5%9B%BE"><span class="toc-number">3.2.</span> <span class="toc-text">分析数据：使用Matplotlib创建散点图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%EF%BC%9A%E5%BD%92%E4%B8%80%E5%8C%96%E6%95%B0%E5%80%BC"><span class="toc-number">3.3.</span> <span class="toc-text">准备数据：归一化数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%AE%97%E6%B3%95%EF%BC%9A%E4%BD%9C%E4%B8%BA%E5%AE%8C%E6%95%B4%E7%A8%8B%E5%BA%8F%E9%AA%8C%E8%AF%81%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-number">3.4.</span> <span class="toc-text">测试算法：作为完整程序验证分类器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%89%8B%E5%86%99%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">示例：手写识别系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%EF%BC%9A%E5%B0%86%E5%9B%BE%E5%83%8F%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%B5%8B%E8%AF%95%E5%90%91%E9%87%8F"><span class="toc-number">4.1.</span> <span class="toc-text">准备数据：将图像转换为测试向量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%AE%97%E6%B3%95%EF%BC%9A%E7%94%A8k-%E8%BF%91%E9%82%BB%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E8%AF%86%E5%88%AB%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97"><span class="toc-number">4.2.</span> <span class="toc-text">测试算法：用k-近邻分类器的识别手写数字</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
+  </div>
+</section>
+
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>我的动力来自盲目和愚钝。</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Machine-Learning/">
+            Machine Learning (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Machine-Learning/Classification/">
+            Classification (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            学习笔记 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/Decision-tree/" style="font-size: 10px;" class="tags-cloud-0">Decision tree</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;" class="tags-cloud-10">Machine Learning</a> <a href="/tags/Markdown/" style="font-size: 10px;" class="tags-cloud-0">Markdown</a> <a href="/tags/Naive-bayes/" style="font-size: 10px;" class="tags-cloud-0">Naive bayes</a> <a href="/tags/Python/" style="font-size: 20px;" class="tags-cloud-10">Python</a> <a href="/tags/VSCode/" style="font-size: 10px;" class="tags-cloud-0">VSCode</a> <a href="/tags/kNN/" style="font-size: 10px;" class="tags-cloud-0">kNN</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Ivan020121" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2022 <a href="/" target="_blank">Ivan</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
