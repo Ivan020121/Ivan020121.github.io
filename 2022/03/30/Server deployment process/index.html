@@ -22,7 +22,7 @@
 
   
 
-  <title>Server deployment process | Ivan</title>
+  <title>Server-deployment-process | Ivan</title>
 
   
 
@@ -98,7 +98,7 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Server deployment process</h1>
+          <h1 class="title-wrap">Server-deployment-process</h1>
           <h2 class="title-sub-wrap">
             <strong>Ivan</strong>
             <span>发布于</span>
@@ -158,7 +158,7 @@
 </ol>
 </blockquote>
 <h1 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h1><p>根据工作内容，我们将工作流程分为Linux系统下数据库工作流程和Anaconda工作流程两部分来分别介绍。</p>
-<h2 id="数据库相关工作流程"><a href="#数据库相关工作流程" class="headerlink" title="数据库相关工作流程"></a>数据库相关工作流程</h2><p>根据数据库相关工作内容，我们将Linux系统下数据库工作流程分为Linux系统下MongoDB数据库的安装和配置和Linux系统下MongoDB数据库的数据导入两部分来分别介绍。</p>
+<h2 id="一、-数据库相关工作流程"><a href="#一、-数据库相关工作流程" class="headerlink" title="一、 数据库相关工作流程"></a>一、 数据库相关工作流程</h2><p>根据数据库相关工作内容，我们将Linux系统下数据库工作流程分为Linux系统下MongoDB数据库的安装和配置和Linux系统下MongoDB数据库的数据导入两部分来分别介绍。</p>
 <h3 id="1-Linux系统下MongoDB数据库的安装和配置"><a href="#1-Linux系统下MongoDB数据库的安装和配置" class="headerlink" title="1. Linux系统下MongoDB数据库的安装和配置"></a>1. Linux系统下MongoDB数据库的安装和配置</h3><h4 id="1-创建MongoDB的安装路径"><a href="#1-创建MongoDB的安装路径" class="headerlink" title="(1) 创建MongoDB的安装路径"></a>(1) 创建MongoDB的安装路径</h4><p>在&#x2F;usr&#x2F;local&#x2F; 创建文件夹mongodb。</p>
 <pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">mkdir mongodb<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h4 id="2-上传文件到Linux上的-x2F-usr-x2F-local-x2F-mongodb目录下"><a href="#2-上传文件到Linux上的-x2F-usr-x2F-local-x2F-mongodb目录下" class="headerlink" title="(2) 上传文件到Linux上的&#x2F;usr&#x2F;local&#x2F;mongodb目录下"></a>(2) 上传文件到Linux上的&#x2F;usr&#x2F;local&#x2F;mongodb目录下</h4><blockquote>
@@ -262,11 +262,55 @@ db.auth(&#39;root&#39;,&#39;123456&#39;)<span aria-hidden="true" class="line-num
 </blockquote>
 <p>解决：添加–authenticationDatabase admin</p>
 <pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">mongoimport -u (user name) -p (password) --db (database name) --collection (collection name) --jsonArray --file (file path) authenticationDatabase admin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="二、-Anaconda相关工作流程"><a href="#二、-Anaconda相关工作流程" class="headerlink" title="二、 Anaconda相关工作流程"></a>二、 Anaconda相关工作流程</h2><h3 id="1-Linux系统下Anaconda的安装和配置"><a href="#1-Linux系统下Anaconda的安装和配置" class="headerlink" title="1. Linux系统下Anaconda的安装和配置"></a>1. Linux系统下Anaconda的安装和配置</h3><h4 id="1-下载Anaconda的安装包"><a href="#1-下载Anaconda的安装包" class="headerlink" title="(1) 下载Anaconda的安装包"></a>(1) 下载Anaconda的安装包</h4><p>这里我们需要在官网上查找自己需要的版本，地址链接在下面:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://repo.anaconda.com/archive/">https://repo.anaconda.com/archive/</a></p>
+</blockquote>
+<h4 id="2-安装Anaconda的安装包"><a href="#2-安装Anaconda的安装包" class="headerlink" title="(2) 安装Anaconda的安装包"></a>(2) 安装Anaconda的安装包</h4><p>使用bash命令安装，然后一直按提示操作即可：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">sh Anaconda3-2022.10-Linux-x86_64.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在安装中包括以下过程：</p>
+<blockquote>
+<p>请观看许可信息，按 Enter 键确认<br>按回车观看更多许可信息，按 Q 键跳过<br>是否接受许可条款， 输入yes回车<br>是否将Anaconda安装在当前路径下，可以输入新的路径回车安装，如果直接回车安装在默认路径下<br>安装Anaconda，输入yes回车<br>安装完成</p>
+</blockquote>
+<p><strong>这时关闭终端，再打开终端会在前面显示（base）表示安装成功，以后终端会默认打开在conda环境。</strong></p>
+<p>输入 conda -V 可以查看安装的Anaconda版本:</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">conda -V<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="2-Linux系统下Anaconda的环境配置"><a href="#2-Linux系统下Anaconda的环境配置" class="headerlink" title="2. Linux系统下Anaconda的环境配置"></a>2. Linux系统下Anaconda的环境配置</h3><h4 id="1-创建Python环境"><a href="#1-创建Python环境" class="headerlink" title="(1) 创建Python环境"></a>(1) 创建Python环境</h4><p>anaconda命令创建python版本为x.x，名字为env_name的虚拟环境。<br>env_name文件可以在Anaconda安装目录envs文件下找到。</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"># 创建
+conda create -n env_name python&#x3D;x.x
+conda create -n pytorch python&#x3D;3.6
+# 删除
+conda remove -n env_name --all<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>激活虚拟环境和关闭虚拟环境:</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"># 激活
+conda activate env_name
+conda activate pytorch
+# 关闭
+conda deactivate<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="2-安装相关的模块"><a href="#2-安装相关的模块" class="headerlink" title="(2) 安装相关的模块"></a>(2) 安装相关的模块</h4><p>本项目用到的Python模块以及安装命令为：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"># numpy
+conda install numpy
+# pandas
+conda install pandas
+# pymongo
+conda install -c https:&#x2F;&#x2F;conda.binstar.org&#x2F;anaconda pymongo
+# flask
+pip install flask
+# gensim 4.1.2
+pip install gensim&#x3D;&#x3D;4.1.2
+# pubchempy
+conda install -c bioconda pubchempy
+# sklearn
+pip install -U scikit-learn
+# rdkit
+conda install -c rdkit rdkit
+# pytorch
+conda install pytorch torchvision torchaudio cpuonly -c pytorch<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 <hr>
 <blockquote>
-<p>🤯本文作者：Ivan<br>🔗本文链接：<a target="_blank" rel="noopener" href="https://ivan020121.github.io/2022/03/31/kNN/">https://ivan020121.github.io/2022/03/31/kNN/</a><br>🔁版权声明：本站所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">©BY-NC-SA</a>许可协议。转载请注明出处！</p>
+<p>🤯本文作者：Ivan<br>🔗本文链接：<a target="_blank" rel="noopener" href="https://ivan020121.github.io/2022/03/30/Server-deployment-process/">https://ivan020121.github.io/2022/03/30/Server-deployment-process/</a><br>🔁版权声明：本站所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">©BY-NC-SA</a>许可协议。转载请注明出处！</p>
 </blockquote>
 
       </section>
@@ -387,7 +431,7 @@ db.auth(&#39;root&#39;,&#39;123456&#39;)<span aria-hidden="true" class="line-num
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%B7%A5%E4%BD%9C%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">一、工作介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9"><span class="toc-number">2.</span> <span class="toc-text">二、 工作内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">1. 数据库相关工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Anaconda%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">2. Anaconda相关工作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">数据库相关工作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Linux%E7%B3%BB%E7%BB%9F%E4%B8%8BMongoDB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">1. Linux系统下MongoDB数据库的安装和配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Linux%E7%B3%BB%E7%BB%9F%E4%B8%8BMongoDB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5"><span class="toc-number">3.2.</span> <span class="toc-text">2. Linux系统下MongoDB数据库的数据导入</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%B7%A5%E4%BD%9C%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">一、工作介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9"><span class="toc-number">2.</span> <span class="toc-text">二、 工作内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">1. 数据库相关工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Anaconda%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">2. Anaconda相关工作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">一、 数据库相关工作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Linux%E7%B3%BB%E7%BB%9F%E4%B8%8BMongoDB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">1. Linux系统下MongoDB数据库的安装和配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Linux%E7%B3%BB%E7%BB%9F%E4%B8%8BMongoDB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5"><span class="toc-number">3.2.</span> <span class="toc-text">2. Linux系统下MongoDB数据库的数据导入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-Anaconda%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">二、 Anaconda相关工作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Linux%E7%B3%BB%E7%BB%9F%E4%B8%8BAnaconda%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">4.1.</span> <span class="toc-text">1. Linux系统下Anaconda的安装和配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Linux%E7%B3%BB%E7%BB%9F%E4%B8%8BAnaconda%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">2. Linux系统下Anaconda的环境配置</span></a></li></ol></li></ol>
   </div>
 </section>
 
